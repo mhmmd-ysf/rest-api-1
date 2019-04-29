@@ -1,14 +1,15 @@
 const route = require('express').Router()
 const { ControllerTodo } = require('../controllers')
 const authorize = require('../middlewares/authorize')
+const authenticate = require('../middlewares/authenticate')
 const isUser = require('../middlewares/isUser')
 
-route.get('/:id', ControllerTodo.getOne)
+route.get('/', authenticate, ControllerTodo.getAll)
+route.post('/', authenticate, ControllerTodo.create)
+route.get('/:id', isUser, ControllerTodo.getOne)
 route.put('/:id', isUser, ControllerTodo.updatePut)
 route.patch('/:id', isUser, ControllerTodo.updatePatch)
-route.post('/', ControllerTodo.create)
 // route.use(authorize)
-route.get('/', ControllerTodo.getAll)
 route.delete('/:id', isUser, ControllerTodo.delete)
 
 
